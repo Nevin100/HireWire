@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../../Components/Inputs/Input.jsx";
 import ProfileSelector from "../../Components/Inputs/ProfileSelector.jsx";
+import { validateEmail } from "../../Util/helper.js";
 
 const SignUp = ({ setcurrentPage }) => {
   const [profilePic, setProfilePic] = useState("");
@@ -16,6 +17,25 @@ const SignUp = ({ setcurrentPage }) => {
   const handleSignUp = async (e) => {
     e.preventDefault();
     // Add your sign-up logic here
+
+    let profileImageUrl = "";
+
+    if (!fullName) {
+      setError("Please enter your full name");
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setError("Please enter your email address");
+      return;
+    }
+
+    if (!password) {
+      setError("Please enter a password");
+      return;
+    }
+
+    setError("");
   };
 
   return (
