@@ -5,6 +5,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LuSparkles } from "react-icons/lu";
 import Modal from "../Components/Modal.jsx";
+import Login from "./Auth/Login.jsx";
+import SignUp from "./Auth/SignUp.jsx";
+
 const LandingPage = () => {
   const navigate = useNavigate();
   const [openAuthModal, setOpenAuthModal] = useState(false);
@@ -130,7 +133,7 @@ const LandingPage = () => {
         <div>
           {currentPage == "login" && <Login setcurrentPage={setcurrentPage} />}
           {currentPage == "signup" && (
-            <Signup setcurrentPage={setcurrentPage} />
+            <SignUp setcurrentPage={setcurrentPage} />
           )}
         </div>
       </Modal>
