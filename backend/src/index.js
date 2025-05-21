@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
+import connectDb from "./Utils/db.js";
 
 dotenv.config();
 
@@ -21,4 +22,5 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+  connectDb();
 });
