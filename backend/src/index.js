@@ -4,7 +4,7 @@ import cors from "cors";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import connectDb from "./Utils/db.js";
-
+import cookieParser from "cookie-parser";
 import authRoutes from "./Routes/Auth.routes.js";
 // import sessinRoutes from "./Routes/"
 
@@ -19,6 +19,7 @@ const PORT = process.env.PORT || 5000;
 // Middlewares
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
 
 //Routes :
 app.use("/api/auth", authRoutes);

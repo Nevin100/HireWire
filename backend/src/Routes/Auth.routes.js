@@ -3,7 +3,7 @@ import {
   loginUser,
   getProfile,
 } from "../Controllers/Auth.Controller.js";
-import { verifyToken } from "../Middlewares/Auth.Middleware.js";
+import verifyToken from "../Middlewares/Auth.Middleware.js";
 import express from "express";
 
 const router = express.Router();
