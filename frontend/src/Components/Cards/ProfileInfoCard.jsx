@@ -1,0 +1,39 @@
+import { UserContext } from "../../Context/UserContext.jsx";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+
+const ProfileInfoCard = () => {
+  const navigate = useNavigate();
+  const { user, clearUser } = useContext(UserContext);
+
+  const handleLogout = () => {
+    localStorage.clear();
+    clearUser();
+    navigate("/");
+  };
+
+  return (
+    <div className="flex items-center gap-4">
+      <img
+        src={user.data?.profileImageUrl}
+        alt="Profile"
+        className="w-14 h-14 bg-gray-300 rounded-full"
+      />
+
+      <div className="flex flex-col justify-center gap-1">
+        <span className="text-sm text-black font-semibold">
+          {user.data?.name || "User"}
+        </span>
+
+        <button
+          onClick={handleLogout}
+          className="text-white bg-amber-500 hover:bg-black hover:text-amber-500 transition-colors px-5 py-1 rounded-md text-sm font-medium cursor-pointer"
+        >
+          Logout
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default ProfileInfoCard;

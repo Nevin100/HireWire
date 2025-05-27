@@ -1,18 +1,21 @@
-/* eslint-disable no-unused-vars */
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../../Components/Inputs/Input.jsx";
 import { validateEmail } from "../../Util/helper.js";
+import axiosInstance from "../../Util/axiosInstance.js";
+import { API_PATHS } from "../../Util/ApiPath.js";
+import { UserContext } from "../../Context/UserContext.jsx";
 
 const Login = ({ setcurrentPage }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  const { updateUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-    e.preventdefault();
+    e.preventDefault();
 
     if (!validateEmail(email)) {
       setError("Please enter a valid email address");
@@ -24,6 +27,23 @@ const Login = ({ setcurrentPage }) => {
       return;
     }
     setError("");
+
+    try {
+      const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
+        email,
+        password,
+      });
+      console.log("Login response:", response.data);
+      const accessToken = response.data.accessToken;
+      if (accessToken) {
+        localStorage.setItem("token", accessToken);
+        updateUser(response.data);
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      setError("An error occurred while logging in. Please try again.");
+    }
   };
   return (
     <div className="w-[90vw] md:w-[33vw] p-7 flex flex-col justify-center">
