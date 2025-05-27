@@ -6,7 +6,7 @@ import { fileURLToPath } from "url";
 import connectDb from "./Utils/db.js";
 import cookieParser from "cookie-parser";
 import authRoutes from "./Routes/Auth.routes.js";
-// import sessinRoutes from "./Routes/"
+import sessionRoutes from "./Routes/Session.routes.js";
 
 dotenv.config();
 
@@ -23,7 +23,7 @@ app.use(cookieParser());
 
 //Routes :
 app.use("/api/auth", authRoutes);
-// app.use("/api/sessions", authRoutes);
+app.use("/api/sessions", sessionRoutes);
 // app.use("/api/questions", authRoutes);
 
 // Serve uploads folder
