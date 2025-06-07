@@ -7,7 +7,7 @@ export const registerUser = async (req, res) => {
   try {
     const { name, email, password, profileImageUrl } = req.body;
 
-    if (!name || !email || !password || !profileImageUrl) {
+    if (!name || !email || !password) {
       return res
         .status(401)
         .json({ message: "Fields cant be Empty", error: true });

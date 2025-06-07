@@ -1,9 +1,12 @@
-/* eslint-disable no-unused-vars */
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../../Components/Inputs/Input.jsx";
 import ProfileSelector from "../../Components/Inputs/ProfileSelector.jsx";
 import { validateEmail } from "../../Util/helper.js";
+import { UserContext } from "../../Context/UserContext.jsx";
+import axiosInstance from "../../Util/axiosInstance.js";
+import { API_PATHS } from "../../Util/ApiPath.js";
+import uploadImage from "../../Util/uploadImage.js";
 
 const SignUp = ({ setcurrentPage }) => {
   const [profilePic, setProfilePic] = useState("");
@@ -13,6 +16,8 @@ const SignUp = ({ setcurrentPage }) => {
 
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  const { updateUser } = useContext(UserContext);
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -36,6 +41,37 @@ const SignUp = ({ setcurrentPage }) => {
     }
 
     setError("");
+
+    try {
+      if (profilePic) {
+        const imageUploadRes = await uploadImage(profilePic);
+        console.log("Image upload response:", imageUploadRes); // 👈 Add this
+        profileImageUrl = imageUploadRes || "";
+      }
+
+      const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
+        name: fullName,
+        email,
+        password,
+        profileImageUrl,
+      });
+      console.log("Login response:", response.data);
+      const accessToken = response.data.accessToken;
+      if (accessToken) {
+        localStorage.setItem("token", accessToken);
+        updateUser(response.data);
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      console.error("Signup error:", err);
+      if (err.response) {
+        console.log("Response:", err.response.data);
+        setError(err.response.data.message || "Signup failed.");
+      } else {
+        console.log("Error Message:", err.message);
+        setError("Network error. Check console.");
+      }
+    }
   };
 
   return (
