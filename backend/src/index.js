@@ -22,7 +22,12 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 // Middlewares
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // your frontend
+    credentials: true, // to allow cookies
+  })
+);
 app.use(cookieParser());
 
 //Routes :
