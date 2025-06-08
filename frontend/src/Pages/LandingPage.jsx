@@ -1,4 +1,3 @@
-import HeroImg from "../assets/hero-imd1.jpg";
 import { APP_FEATURES } from "../Util/data.js";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -110,7 +109,7 @@ const LandingPage = () => {
               </p>
 
               <button
-                className="bg-black text-sm md:text-md font-semibold text-white px-4 py-2 md:px-7 sm:px-3 md:py-2.5 rounded-full"
+                className="bg-black text-sm md:text-md font-semibold text-white px-4 py-2 md:px-7 sm:px-3 md:py-2.5 cursor-pointer rounded-full"
                 onClick={handleCTA}
               >
                 Get Started!
@@ -123,7 +122,11 @@ const LandingPage = () => {
       {/* Hero Image */}
       <div className="w-full min-h-full relative z-10">
         <section className="flex justify-center items-center -mt-59">
-          <img src={HeroImg} alt="Hero img" className="w-[75vw] rounded-xl" />
+          <img
+            src={"/Landing.jpg"}
+            alt="Hero img"
+            className="w-[75vw] rounded-xl"
+          />
         </section>
       </div>
 
