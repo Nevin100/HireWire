@@ -39,6 +39,7 @@ const Dashboard = () => {
     }
   };
 
+  //delete Session
   const deleteSession = async (sessionData) => {
     try {
       await axiosInstance.delete(API_PATHS.SESSION.DELETE(sessionData?._id));
