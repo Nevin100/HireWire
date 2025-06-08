@@ -9,6 +9,8 @@ import axiosInstance from "../../Util/axiosInstance.js";
 import { API_PATHS } from "../../Util/ApiPath.js";
 import moment from "moment";
 import SummaryCard from "../../Components/Cards/SummaryCard.jsx";
+import Modal from "../../Components/Modal.jsx";
+import CreateSessionForm from "./CreateSessionForm.jsx";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -72,6 +74,20 @@ const Dashboard = () => {
             <LuPlus className="text-2xl text-white" />
             Add New
           </button>
+        </div>
+
+        <div className="">
+          <Modal
+            isOpen={openCreateModal}
+            onClose={() => {
+              setOpenCreateModal(false);
+            }}
+            hideHeader
+          >
+            <div>
+              <CreateSessionForm />
+            </div>
+          </Modal>
         </div>
       </DashboardLayout>
       ;
