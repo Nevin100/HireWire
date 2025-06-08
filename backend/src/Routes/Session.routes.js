@@ -4,7 +4,7 @@ import {
   getSession,
   getSessions,
   deleteSession,
-} from "../Controllers/Session.controller.js";
+} from "../Controllers/Session.Controller.js";
 
 import verifyToken from "../Middlewares/Auth.Middleware.js";
 
