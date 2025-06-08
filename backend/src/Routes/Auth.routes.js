@@ -2,7 +2,7 @@ import {
   registerUser,
   loginUser,
   getProfile,
-} from "../Controllers/Auth.controller.js";
+} from "../Controllers/Auth.Controller.js";
 import verifyToken from "../Middlewares/Auth.Middleware.js";
 import express from "express";
 import upload from "../Middlewares/Upload.Middleware.js";
