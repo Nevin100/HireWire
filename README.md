@@ -46,7 +46,7 @@ But hey, hungry for more? Tap that **Generate More** button. Unlimited prep — 
 ---
 
 ## 📸 Sneak Peek (Screenshots)
-> _Drop some spicy screenshots or demo GIFs here_  
+> _Dropping some spicy screenshots :
 ![image](https://github.com/user-attachments/assets/d858ab54-912c-4608-a182-77ed2cc0f165)
 ![image](https://github.com/user-attachments/assets/2d6779af-b097-4388-bb8b-eb6c7106c920)
 ![image](https://github.com/user-attachments/assets/f459feb7-600b-47d7-be34-2d9ac5537216)
