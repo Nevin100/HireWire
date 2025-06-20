@@ -35,6 +35,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/sessions", sessionRoutes);
 app.use("/api/questions", questionRoutes);
 
+app.get("/", async (req, res) => {
+  res.send("Hello From the backend");
+});
+
 //ai-generated routes:
 app.use("/api/ai/generate-questions", verifyToken, async (req, res) => {
   try {
