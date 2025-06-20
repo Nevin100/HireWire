@@ -22,12 +22,24 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 // Middlewares
 app.use(express.json());
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://hire-wire.vercel.app",
+];
+
 app.use(
   cors({
-    origin: "https://hire-wire.vercel.app",
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
+
 app.use(cookieParser());
 
 //Routes :
