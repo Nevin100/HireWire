@@ -24,7 +24,7 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 app.use(express.json());
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://hire-wire.vercel.app",
+  "https://hire-wire-three.vercel.app",
 ];
 
 app.use(
