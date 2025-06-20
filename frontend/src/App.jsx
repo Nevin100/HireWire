@@ -2,9 +2,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 // import Login from "./pages/Auth/Login.jsx";
 // import SignUp from "./pages/Auth/SignUp.jsx";
-import LandingPage from "./pages/LandingPage.jsx";
-import Dashboard from "./pages/Home/Dashboard.jsx";
-import InterviewPrep from "./pages/InterviewPrep/InterviewPrep.jsx";
+import LandingPage from "./Pages/LandingPage.jsx";
+import Dashboard from "./Pages/Home/Dashboard.jsx";
+import InterviewPrep from "./Pages/InterviewPrep/InterviewPrep.jsx";
 import UserProvider from "./Context/UserContext.jsx";
 
 const App = () => {
