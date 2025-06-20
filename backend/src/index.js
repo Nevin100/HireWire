@@ -125,7 +125,8 @@ app.use("/api/ai/generate-explanations", verifyToken, async (req, res) => {
 });
 
 // Serve uploads folder
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+// Static serve uploads folder - make sure path matches multer uploadDir
+app.use("/uploads", express.static(path.join(__dirname, "src", "Uploads")));
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

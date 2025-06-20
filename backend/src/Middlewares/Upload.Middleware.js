@@ -1,8 +1,22 @@
 import multer from "multer";
+import path from "path";
+import fs from "fs";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const uploadDir = path.join(__dirname, "src", "Uploads");
+
+// Agar folder nahi hai toh bana do
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "src/Uploads/");
+    cb(null, uploadDir); // Absolute path
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}-${file.originalname}`);
