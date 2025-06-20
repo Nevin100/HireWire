@@ -24,8 +24,8 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:5173", // your frontend
-    credentials: true, // to allow cookies
+    origin: "https://hire-wire.vercel.app",
+    credentials: true,
   })
 );
 app.use(cookieParser());
