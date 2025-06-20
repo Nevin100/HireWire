@@ -21,9 +21,6 @@ const SignUp = ({ setcurrentPage }) => {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    // Add your sign-up logic here
-
-    let profileImageUrl = "";
 
     if (!fullName) {
       setError("Please enter your full name");
@@ -31,7 +28,7 @@ const SignUp = ({ setcurrentPage }) => {
     }
 
     if (!validateEmail(email)) {
-      setError("Please enter your email address");
+      setError("Please enter a valid email address");
       return;
     }
 
@@ -41,11 +38,11 @@ const SignUp = ({ setcurrentPage }) => {
     }
 
     setError("");
+    let profileImageUrl = "";
 
     try {
       if (profilePic) {
         const imageUploadRes = await uploadImage(profilePic);
-        console.log("Image upload response:", imageUploadRes); // 👈 Add this
         profileImageUrl = imageUploadRes || "";
       }
 
@@ -55,20 +52,17 @@ const SignUp = ({ setcurrentPage }) => {
         password,
         profileImageUrl,
       });
-      console.log("Login response:", response.data);
-      const accessToken = response.data.accessToken;
-      if (accessToken) {
-        localStorage.setItem("token", accessToken);
-        updateUser(response.data);
-        navigate("/dashboard");
-      }
+
+      console.log("Signup response:", response.data);
+
+      // ✅ Server sets cookie, so just set user context
+      updateUser(response.data.data);
+      navigate("/dashboard");
     } catch (err) {
       console.error("Signup error:", err);
       if (err.response) {
-        console.log("Response:", err.response.data);
         setError(err.response.data.message || "Signup failed.");
       } else {
-        console.log("Error Message:", err.message);
         setError("Network error. Check console.");
       }
     }
@@ -76,7 +70,7 @@ const SignUp = ({ setcurrentPage }) => {
 
   return (
     <div className="w-[90vw] md:w-[33vw] p-7 flex flex-col justify-center">
-      <h3 className="text-2xl font-semibold text-black mb-4 ">
+      <h3 className="text-2xl font-semibold text-black mb-4">
         Create An Account
       </h3>
       <p className="text-lg mb-6">
@@ -106,7 +100,7 @@ const SignUp = ({ setcurrentPage }) => {
           onChange={(e) => setPassword(e.target.value)}
           type="password"
           placeholder="********"
-          label="Password :"
+          label="Password"
         />
 
         {error && <span className="text-md text-red-500 pb-2.5n">{error}</span>}

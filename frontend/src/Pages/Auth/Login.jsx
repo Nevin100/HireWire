@@ -26,6 +26,7 @@ const Login = ({ setcurrentPage }) => {
       setError("Please enter a password");
       return;
     }
+
     setError("");
 
     try {
@@ -33,22 +34,22 @@ const Login = ({ setcurrentPage }) => {
         email,
         password,
       });
+
       console.log("Login response:", response.data);
-      const accessToken = response.data.accessToken;
-      if (accessToken) {
-        localStorage.setItem("token", accessToken);
-        updateUser(response.data);
-        navigate("/dashboard");
-      }
+
+      // ✅ Backend already sets cookie, we just update context
+      updateUser(response.data.data);
+      navigate("/dashboard");
     } catch (err) {
       console.error("Login error:", err);
-      setError("An error occurred while logging in. Please try again.");
+      setError("Login failed. Please try again.");
     }
   };
+
   return (
     <div className="w-[90vw] md:w-[33vw] p-7 flex flex-col justify-center">
-      <h3 className="text-2xl font-semibold text-black mb-4 ">Welcome Back</h3>
-      <p className="text-lg mb-6">Please Enter your details to log in </p>
+      <h3 className="text-2xl font-semibold text-black mb-4">Welcome Back</h3>
+      <p className="text-lg mb-6">Please Enter your details to log in</p>
 
       <form onSubmit={handleLogin}>
         <Input
@@ -64,7 +65,7 @@ const Login = ({ setcurrentPage }) => {
           onChange={(e) => setPassword(e.target.value)}
           type="password"
           placeholder="********"
-          label="Password :"
+          label="Password"
         />
 
         {error && <span className="text-md text-red-500 pb-2.5n">{error}</span>}

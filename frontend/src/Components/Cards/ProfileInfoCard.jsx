@@ -11,18 +11,20 @@ const ProfileInfoCard = () => {
     clearUser();
     navigate("/");
   };
+
+  console.log("Profile Card : ", user);
   console.log(user);
   return (
     <div className="flex items-center gap-4">
       <img
-        src={user.data?.profileImageUrl}
+        src={user?.profileImageUrl}
         alt="Profile"
         className="w-11 h-11 bg-gray-300 rounded-full"
       />
 
       <div className="flex flex-col justify-center gap-1">
         <span className="text-sm text-black font-semibold">
-          {user.data?.name || "User"}
+          {user?.name || "User"}
         </span>
 
         <button

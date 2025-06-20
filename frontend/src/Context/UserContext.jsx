@@ -1,6 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
 /* eslint-disable react-refresh/only-export-components */
+/* eslint-disable no-unused-vars */
 import { createContext, useState, useEffect } from "react";
 import axiosInstance from "../Util/axiosInstance.js";
 import { API_PATHS } from "../Util/ApiPath.js";
@@ -13,18 +12,10 @@ const UserProvider = ({ children }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (user) return;
-
-    const accessToken = localStorage.getItem("token");
-    if (!accessToken) {
-      setLoading(false);
-      return;
-    }
-
     const fetchUser = async () => {
       try {
-        const response = await axiosInstance.get(API_PATHS.AUTH.GET_PROFILE);
-        setUser(response.data);
+        const res = await axiosInstance.get(API_PATHS.AUTH.GET_PROFILE);
+        setUser(res.data);
       } catch (err) {
         console.error("User not authenticated", err);
         setError(err);
@@ -33,19 +24,19 @@ const UserProvider = ({ children }) => {
         setLoading(false);
       }
     };
+
     fetchUser();
   }, []);
 
   const updateUser = (userData) => {
-    setUser(userData);
-    localStorage.setItem("token", userData.accessToken);
+    setUser(userData); // userData = response.data.data
     setLoading(false);
   };
 
   const clearUser = () => {
     setUser(null);
-    localStorage.removeItem("token");
   };
+
   return (
     <UserContext.Provider value={{ user, loading, updateUser, clearUser }}>
       {children}
