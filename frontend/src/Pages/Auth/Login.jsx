@@ -10,6 +10,7 @@ const Login = ({ setcurrentPage }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { updateUser } = useContext(UserContext);
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ const Login = ({ setcurrentPage }) => {
     }
 
     setError("");
+    setLoading(true);
 
     try {
       const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
@@ -36,56 +38,70 @@ const Login = ({ setcurrentPage }) => {
       });
 
       console.log("Login response:", response.data);
-
-      // ✅ Backend already sets cookie, we just update context
       updateUser(response.data.data);
       navigate("/dashboard");
     } catch (err) {
       console.error("Login error:", err);
       setError("Login failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="w-[90vw] md:w-[33vw] p-7 flex flex-col justify-center">
-      <h3 className="text-2xl font-semibold text-black mb-4">Welcome Back</h3>
-      <p className="text-lg mb-6">Please Enter your details to log in</p>
+    <div className="relative">
+      {loading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/70 backdrop-blur-sm">
+          <div className="w-12 h-12 border-4 border-amber-300 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
 
-      <form onSubmit={handleLogin}>
-        <Input
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          type="email"
-          placeholder="johndoe@gmail.com"
-          label="Email"
-        />
+      <div className="w-[90vw] md:w-[33vw] p-7 flex flex-col justify-center">
+        <h3 className="text-2xl font-semibold text-black mb-4">Welcome Back</h3>
+        <p className="text-lg mb-6">Please Enter your details to log in</p>
 
-        <Input
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          type="password"
-          placeholder="********"
-          label="Password"
-        />
+        <form onSubmit={handleLogin}>
+          <Input
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            type="email"
+            placeholder="johndoe@gmail.com"
+            label="Email"
+          />
 
-        {error && <span className="text-md text-red-500 pb-2.5n">{error}</span>}
+          <Input
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            type="password"
+            placeholder="********"
+            label="Password"
+          />
 
-        <button type="submit" className="btn-primary">
-          Login
-        </button>
+          {error && (
+            <span className="text-md text-red-500 pb-2.5">{error}</span>
+          )}
 
-        <p className="text-[15px] text-slate-800 mt-4">
-          Don't have an account?{" "}
           <button
-            className="font-medium text-primary underline cursor-pointer"
-            onClick={() => {
-              setcurrentPage("signup");
-            }}
+            type="submit"
+            className="btn-primary flex items-center justify-center gap-2"
+            disabled={loading}
           >
-            Signup
+            Login
           </button>
-        </p>
-      </form>
+
+          <p className="text-[15px] text-slate-800 mt-4">
+            Don't have an account?{" "}
+            <button
+              className="font-medium text-primary underline cursor-pointer"
+              onClick={() => {
+                setcurrentPage("signup");
+              }}
+            >
+              Signup
+            </button>
+          </p>
+        </form>
+      </div>
     </div>
   );
 };

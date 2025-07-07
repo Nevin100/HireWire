@@ -16,14 +16,14 @@ const ProfileInfoCard = () => {
   console.log(user);
   return (
     <div className="flex items-center gap-4">
-      <img
+      {/* <img
         src={user?.profileImageUrl}
         alt="Profile"
         className="w-11 h-11 bg-gray-300 rounded-full"
-      />
+      /> */}
 
       <div className="flex flex-col justify-center gap-1">
-        <span className="text-sm text-black font-semibold">
+        <span className="text-md text-black font-semibold">
           {user?.name || "User"}
         </span>
 
