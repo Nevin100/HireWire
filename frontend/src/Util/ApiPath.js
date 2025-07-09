@@ -1,4 +1,4 @@
-export const BASE_URL = "https://hirewire-xh8i.onrender.com";
+export const BASE_URL = "https://hirewire-gjf4.onrender.com";
 //
 export const API_PATHS = {
   AUTH: {
