@@ -22,17 +22,19 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 // Middlewares
 app.use(express.json());
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://hire-wire-three.vercel.app",
-];
-
 app.use(
   cors({
     origin: (origin, callback) => {
+      console.log("🔍 Incoming request origin:", origin);
+      const allowedOrigins = [
+        "http://localhost:5173",
+        "https://hire-wire-three.vercel.app",
+      ];
+
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
+        console.log("❌ Blocked by CORS:", origin);
         callback(new Error("Not allowed by CORS"));
       }
     },
