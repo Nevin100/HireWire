@@ -7,7 +7,7 @@ const axiosInstance = axios.create({
     "Content-Type": "application/json",
     Accept: "application/json",
   },
-  withCredentials: true, // ✅ Required for sending cookies
+  withCredentials: true,
 });
 
 axiosInstance.interceptors.response.use(
@@ -15,7 +15,6 @@ axiosInstance.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       console.error("Unauthorized access - redirecting to login");
-      // Optional: add redirection logic
     }
     return Promise.reject(error);
   }
