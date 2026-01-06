@@ -7,7 +7,7 @@
 
 ## 🧠 What is HireWire?
 
-**HireWire** is your AI-powered interview prep buddy — think ChatGPT meets LeetCode but with sass 😎  
+**HireWire** is your AI-powered interview prep buddy😎  
 It helps you prepare for technical interviews based on:
 
 - 👨‍💻 **Role**
