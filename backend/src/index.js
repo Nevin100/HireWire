@@ -70,7 +70,7 @@ app.use("/api/ai/generate-questions", verifyToken, async (req, res) => {
     );
 
     const result = await ai.models.generateContent({
-      model: "gemini-2.0-flash-lite",
+      model: "gemini-2.5-flash",
       contents: prompt,
     });
 
@@ -104,7 +104,7 @@ app.use("/api/ai/generate-explanations", verifyToken, async (req, res) => {
     const prompt = conceptExplainPrompt(question);
 
     const response = await ai.models.generateContent({
-      model: "gemini-2.0-flash-lite",
+      model: "gemini-2.5-flash",
       contents: prompt,
     });
 
