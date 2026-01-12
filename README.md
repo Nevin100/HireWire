@@ -1,5 +1,5 @@
 # ⚡️ HireWire 🚀  
-> _Ace interviews like a beast. Built with MERN + Gemini. Powered by caffeine and chaos._
+> _Ace interviews like a beast. Built with MERN + Groq. Powered by caffeine and chaos._
 
 # Landing Page:
 ![image](https://github.com/user-attachments/assets/b6020f9d-12c1-4357-b48c-a17bd48b4c44)
@@ -15,7 +15,7 @@ It helps you prepare for technical interviews based on:
 - 🎯 **Topics to Focus**
 - 📝 **Extra Notes (we all got baggage)**
 
-It spits out **10 questions by default** 🔥  
+It spits out **6-10 questions by default** 🔥  
 But hey, hungry for more? Tap that **Generate More** button. Unlimited prep — no strings attached.
 
 ---

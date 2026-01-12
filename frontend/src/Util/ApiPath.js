@@ -1,4 +1,4 @@
-export const BASE_URL = "https://hirewire-gjf4.onrender.com";
+export const BASE_URL = "http://localhost:4000";
 
 export const API_PATHS = {
   AUTH: {

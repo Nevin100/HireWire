@@ -6,19 +6,23 @@ export const addQuestionsToSession = async (req, res) => {
   try {
     const { sessionId, questions } = req.body;
 
-    if (!sessionId || !questions || !Array.isArray(questions)) {
+    let questionList = questions;
+
+    if (questions?.questions && Array.isArray(questions.questions)) {
+      questionList = questions.questions;
+    }
+
+    if (!sessionId || !Array.isArray(questionList)) {
       return res.status(400).json({ message: "Invalid input data" });
     }
 
-    // Find the session by ID
     const session = await Session.findById(sessionId);
     if (!session) {
       return res.status(404).json({ message: "Session not found" });
     }
 
-    // Create new questions and associate them with the session
     const createdQuestions = await Question.insertMany(
-      questions.map((q) => ({
+      questionList.map((q) => ({
         session: sessionId,
         question: q.question,
         answer: q.answer,

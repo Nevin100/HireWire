@@ -29,7 +29,7 @@ const UserProvider = ({ children }) => {
   }, []);
 
   const updateUser = (userData) => {
-    setUser(userData); // userData = response.data.data
+    setUser(userData);
     setLoading(false);
   };
 
