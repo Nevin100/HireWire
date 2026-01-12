@@ -1,11 +1,21 @@
 import Session from "../Models/session.model.js";
 import Question from "../Models/question.model.js";
-//
+
+// Create Session :
 export const createSession = async (req, res) => {
   try {
-    const { role, experience, description, topicsToFocus, questions } =
-      req.body;
+    const { role, experience, description, topicsToFocus, questions } = req.body;
     const userId = req.user._id;
+
+    let questionList = questions;
+
+    if (questions?.questions && Array.isArray(questions.questions)) {
+      questionList = questions.questions;
+    }
+
+    if (!Array.isArray(questionList)) {
+      return res.status(400).json({ message: "Invalid questions format" });
+    }
 
     const session = await Session.create({
       user: userId,
@@ -16,7 +26,7 @@ export const createSession = async (req, res) => {
     });
 
     const questionDocs = await Promise.all(
-      questions.map(async (q) => {
+      questionList.map(async (q) => {
         const question = await Question.create({
           session: session._id,
           question: q.question,

@@ -52,11 +52,10 @@ const InterviewPrep = () => {
         { question }
       );
 
-      // ✅ Here's the actual fix:
-      const explanationObj = response.data.data; // Not .data.data
+      const explanationObj = response.data.data; 
       console.log("Explanation :", explanationObj);
 
-      setExplanation(explanationObj); // ✅ Set correctly
+      setExplanation(explanationObj);
       setIsLoading(false);
     } catch (error) {
       setError("Failed to generate Explanation");

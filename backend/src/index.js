@@ -11,21 +11,19 @@ import sessionRoutes from "./Routes/Session.routes.js";
 import questionRoutes from "./Routes/Question.Routes.js";
 import verifyToken from "./Middlewares/Auth.Middleware.js";
 import { conceptExplainPrompt, questionAnswerPrompt } from "./Utils/prompt.js";
-import { GoogleGenAI } from "@google/genai";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT;
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 // Middlewares
 app.use(express.json());
 app.use(
   cors({
     origin: (origin, callback) => {
-      console.log("🔍 Incoming request origin:", origin);
+      console.log("Incoming request origin:", origin);
       const allowedOrigins = [
         "http://localhost:5173",
         "https://hire-wire-three.vercel.app",
@@ -53,6 +51,46 @@ app.get("/", async (req, res) => {
   res.send("Hello From the backend");
 });
 
+const GROQ_API_KEY = process.env.GROQ_API_KEY;
+const GROQ_MODEL = "llama-3.1-8b-instant";
+
+const callGroq = async (prompt) => {
+  const response = await fetch(
+    "https://api.groq.com/openai/v1/chat/completions",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: "llama-3.1-8b-instant",
+        messages: [
+          {
+            role: "system",
+            content:
+              "Return ONLY valid JSON. Do not include explanations, markdown, or extra text.",
+          },
+          { role: "user", content: prompt },
+        ],
+        temperature: 0.3,
+        max_tokens: 800,
+        response_format: { type: "json_object" }, // 🔥 THIS FIXES IT
+      }),
+    }
+  );
+
+  if (!response.ok) {
+    const err = await response.text();
+    console.error("Groq error:", err);
+    throw new Error("Groq API failed");
+  }
+
+  const data = await response.json();
+  return data.choices[0].message.content;
+};
+
+
 //ai-generated routes:
 app.use("/api/ai/generate-questions", verifyToken, async (req, res) => {
   try {
@@ -69,26 +107,21 @@ app.use("/api/ai/generate-questions", verifyToken, async (req, res) => {
       numberOfQuestions
     );
 
-    const result = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: prompt,
-    });
-
-    const rawText = result.candidates[0].content.parts[0].text;
-    if (!rawText) {
-      return res.status(500).json({ error: "No response from AI" });
-    }
+    const rawText = await callGroq(prompt);
 
     const cleanText = rawText
-      .replace(/^```json\s*/, "")
-      .replace(/```$/, "")
+      .replace(/^```json\s*/i, "")
+      .replace(/```$/i, "")
       .trim();
 
     const data = JSON.parse(cleanText);
-    res.status(200).json({ data: data });
+
+    res.status(200).json({ data });
   } catch (error) {
-    console.error("Gemini error:", error?.response || error);
-    res.status(500).json({ error: "Failed to generate interview questions" });
+    console.error("Groq error:", error);
+    res
+      .status(500)
+      .json({ error: "Failed to generate interview questions" });
   }
 });
 
@@ -103,31 +136,24 @@ app.use("/api/ai/generate-explanations", verifyToken, async (req, res) => {
 
     const prompt = conceptExplainPrompt(question);
 
-    const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: prompt,
-    });
-
-    const rawText = response.candidates[0].content.parts[0].text;
-    if (!rawText) {
-      return res.status(500).json({ error: "No response from AI" });
-    }
+    const rawText = await callGroq(prompt);
 
     const cleanText = rawText
-      .replace(/^```json\s*/, "")
-      .replace(/```$/, "")
+      .replace(/^```json\s*/i, "")
+      .replace(/```$/i, "")
       .trim();
 
     const data = JSON.parse(cleanText);
-    res.status(200).json({ data: data });
+
+    res.status(200).json({ data });
   } catch (error) {
-    console.error("Gemini error:", error?.response || error);
+    console.error("Groq error:", error);
     res.status(500).json({ error: "Failed to generate explanation" });
   }
 });
 
+
 // Serve uploads folder
-// Static serve uploads folder - make sure path matches multer uploadDir
 app.use("/uploads", express.static(path.join(__dirname, "src", "Uploads")));
 
 app.listen(PORT, () => {
