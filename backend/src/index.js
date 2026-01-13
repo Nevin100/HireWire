@@ -27,6 +27,7 @@ app.use(
       const allowedOrigins = [
         "http://localhost:5173",
         "https://hire-wire-three.vercel.app",
+        "https://hirewire.nevinbali.me"
       ];
 
       if (!origin || allowedOrigins.includes(origin)) {
