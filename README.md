@@ -1,5 +1,5 @@
-# ⚡️ HireWire 🚀  
-> _Ace interviews like a beast. Built with MERN + Groq. Powered by caffeine and chaos._
+# ⚡️ HireWire - v1  
+> _Ace interviews like a beast. Built with MERN + Groq. Powered by chai + maggi and chaos._
 
 # Landing Page:
 <img width="1351" height="590" alt="image" src="https://github.com/user-attachments/assets/cef3beeb-6864-4ad5-960c-f15086ac659e" />
