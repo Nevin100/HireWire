@@ -2,7 +2,9 @@
 > _Ace interviews like a beast. Built with MERN + Groq. Powered by caffeine and chaos._
 
 # Landing Page:
-![image](https://github.com/user-attachments/assets/b6020f9d-12c1-4357-b48c-a17bd48b4c44)
+<img width="1351" height="590" alt="image" src="https://github.com/user-attachments/assets/cef3beeb-6864-4ad5-960c-f15086ac659e" />
+<img width="1336" height="564" alt="image" src="https://github.com/user-attachments/assets/89e553ab-1716-47c6-9ed9-edbd4f739697" />
+
 
 
 ## 🧠 What is HireWire?
@@ -47,11 +49,10 @@ But hey, hungry for more? Tap that **Generate More** button. Unlimited prep — 
 
 ## 📸 Sneak Peek (Screenshots)
 > _Dropping some spicy screenshots :
-![image](https://github.com/user-attachments/assets/d858ab54-912c-4608-a182-77ed2cc0f165)
-![image](https://github.com/user-attachments/assets/2d6779af-b097-4388-bb8b-eb6c7106c920)
-![image](https://github.com/user-attachments/assets/f459feb7-600b-47d7-be34-2d9ac5537216)
-![image](https://github.com/user-attachments/assets/aa86fc85-4f81-4027-977b-be87db5b8b7c)
-
+<img width="1348" height="599" alt="image" src="https://github.com/user-attachments/assets/4400694e-58e7-4395-8c5f-911b47341299" />
+<img width="1341" height="610" alt="image" src="https://github.com/user-attachments/assets/1d2a2b2b-a98a-4ed4-8c55-6570829a38d5" />
+<img width="1359" height="617" alt="image" src="https://github.com/user-attachments/assets/e4c0d4e1-a608-4b3d-a0da-f0aeb7563416" />
+<img width="1366" height="615" alt="image" src="https://github.com/user-attachments/assets/75bb7bcc-2ca8-479e-bfc0-2f599d3e2287" />
 
 ---
 
