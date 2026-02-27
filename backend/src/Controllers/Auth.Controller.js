@@ -96,3 +96,13 @@ export const getProfile = async (req, res) => {
     res.status(500).json({ message: "Errror", error: error });
   }
 };
+
+// Logout User :s
+export const logoutUser = (req, res) => {
+  res.clearCookie("jwt", {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+  });
+  res.status(200).json({ message: "User Logged out Successfully", error: false });
+};

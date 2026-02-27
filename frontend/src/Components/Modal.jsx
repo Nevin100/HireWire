@@ -3,9 +3,11 @@ const Modal = ({ children, isOpen, onClose, title, hideHeader }) => {
     return null;
   }
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 bg-opacity-50 w-full h-full">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 bg-opacity-50 w-full h-full"
+    onClick={onClose}>
       <div
         className={`relative flex flex-col bg-white shadow-lg rounded-xl overflow-hidden `}
+        onClick={(e) => e.stopPropagation()}
       >
         {!hideHeader && (
           <div className="flex items-center justify-between p-4 border-b border-gray-200">

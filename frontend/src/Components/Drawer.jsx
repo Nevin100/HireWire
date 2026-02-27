@@ -4,44 +4,54 @@ import { LuX } from "react-icons/lu";
 const Drawer = ({ isOpen, onClose, title, children }) => {
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = "hidden"; // Disable page scroll
+      document.body.style.overflow = "hidden"; 
     } else {
-      document.body.style.overflow = "auto"; // Enable it back
+      document.body.style.overflow = "auto"; 
     }
-
     return () => {
-      document.body.style.overflow = "auto"; // Cleanup when component unmounts
+      document.body.style.overflow = "auto"; 
     };
   }, [isOpen]);
 
   return (
-    <div
-      className={`fixed top-[64px] right-0 z-40 h-[calc(100dvh-64px)] transition-transform bg-white w-full md:w-[40vw] shadow-2xl shadow-cyan-800/10 border-r border-l-gray-800 ${
-        isOpen ? "translate-x-0" : "translate-x-full"
-      }`}
-      tabIndex="-1"
-      aria-labelledby="drawer-right-label"
-    >
-      <div className="flex items-center justify-between p-4 border-b border-gray-200">
-        <h5
-          id="drawer-right-label"
-          className="text-base font-semibold text-black"
-        >
-          {title}
-        </h5>
-        <button
-          className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex items-center justify-center"
-          type="button"
+    <>
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-30 transition-opacity"
           onClick={onClose}
-        >
-          <LuX className="text-lg" />
-        </button>
-      </div>
+        />
+      )}
 
-      <div className="h-[calc(100%-64px)] overflow-y-auto p-4">
-        <div className="text-md mb-6">{children}</div>
+      <div
+        className={`fixed top-0 right-0 z-40 h-screen transition-transform duration-500 ease-in-out bg-[#0a0a0a] border-l border-white/10 w-full md:w-[45vw] lg:w-[35vw] shadow-[-20px_0_50px_rgba(0,0,0,0.5)] ${
+          isOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+        tabIndex="-1"
+        aria-labelledby="drawer-right-label"
+      >
+        <div className="flex items-center justify-between p-6 border-b border-white/5 bg-white/[0.02]">
+          <h5
+            id="drawer-right-label"
+            className="text-lg font-black text-white tracking-tight"
+          >
+            {title}
+          </h5>
+          <button
+            className="text-gray-500 bg-white/5 hover:bg-orange-500/10 hover:text-orange-500 rounded-xl text-sm w-10 h-10 inline-flex items-center justify-center transition-all border border-white/5"
+            type="button"
+            onClick={onClose}
+          >
+            <LuX className="text-xl" />
+          </button>
+        </div>
+
+        <div className="h-[calc(100%-85px)] overflow-y-auto custom-scrollbar">
+          <div className="p-6">
+            {children}
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

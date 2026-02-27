@@ -2,6 +2,7 @@ import {
   registerUser,
   loginUser,
   getProfile,
+  logoutUser,
 } from "../Controllers/Auth.Controller.js";
 import verifyToken from "../Middlewares/Auth.Middleware.js";
 import express from "express";
@@ -28,5 +29,8 @@ router.post("/upload-image", upload.single("image"), (req, res) => {
   }`;
   res.status(200).json({ imageUrl: ImageUrl });
 });
+
+// Logout User :
+router.post("/logout", logoutUser);
 
 export default router;

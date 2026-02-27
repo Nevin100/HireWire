@@ -11,7 +11,7 @@ const SignUp = ({ setcurrentPage }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false); // 👈 loading state
+  const [loading, setLoading] = useState(false); 
 
   const navigate = useNavigate();
   const { updateUser } = useContext(UserContext);
@@ -35,7 +35,7 @@ const SignUp = ({ setcurrentPage }) => {
     }
 
     setError("");
-    setLoading(true); // 👈 start loading
+    setLoading(true); 
 
     try {
       const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
@@ -55,13 +55,13 @@ const SignUp = ({ setcurrentPage }) => {
         setError("Network error. Check console.");
       }
     } finally {
-      setLoading(false); // 👈 stop loading
+      setLoading(false);
     }
   };
 
   return (
     <div className="relative">
-      {/* 🔁 Fullscreen Amber Loader */}
+      {/*  Fullscreen Amber Loader */}
       {loading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/70 backdrop-blur-sm">
           <div className="w-12 h-12 border-4 border-amber-500 border-t-transparent rounded-full animate-spin"></div>
@@ -72,7 +72,7 @@ const SignUp = ({ setcurrentPage }) => {
         <h3 className="text-2xl font-semibold text-black mb-4">
           Create An Account
         </h3>
-        <p className="text-lg mb-6">
+        <p className="text-lg mb-6 text-orange-500">
           Join us today by entering your details below
         </p>
 

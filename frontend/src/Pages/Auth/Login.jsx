@@ -58,7 +58,7 @@ const Login = ({ setcurrentPage }) => {
 
       <div className="w-[90vw] md:w-[33vw] p-7 flex flex-col justify-center">
         <h3 className="text-2xl font-semibold text-black mb-4">Welcome Back</h3>
-        <p className="text-lg mb-6">Please Enter your details to log in</p>
+        <p className="text-lg mb-6 text-orange-400">Please Enter your details to log in</p>
 
         <form onSubmit={handleLogin}>
           <Input
