@@ -13,7 +13,7 @@ import Modal from "../../Components/Modal.jsx";
 import CreateSessionForm from "./CreateSessionForm.jsx";
 import DeleteAlertContent from "../../Components/DeleteAlertContent.jsx";
 import { VscEmptyWindow } from "react-icons/vsc";
-import { motion, AnimatePresence } from "framer-motion"; // Add framer-motion for that smooth feel
+import { motion, AnimatePresence } from "framer-motion"; 
 
 const Dashboard = () => {
   const navigate = useNavigate();

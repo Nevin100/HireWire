@@ -35,7 +35,7 @@ const UserProvider = ({ children }) => {
 
   const clearUser = () => {
   setUser(null);
-  localStorage.removeItem("token"); // safety net
+  localStorage.removeItem("token")
 };
 
   return (
