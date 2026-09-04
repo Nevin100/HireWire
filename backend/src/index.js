@@ -75,7 +75,9 @@ const callGroq = async (prompt) => {
           { role: "user", content: prompt },
         ],
         temperature: 0.3,
-        max_tokens: 800,
+        max_tokens: 1200,
+        reasoning_format: "hidden",
+        reasoning_effort: "none",
       }),
     }
   );
