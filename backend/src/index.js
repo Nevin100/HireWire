@@ -65,7 +65,7 @@ const callGroq = async (prompt) => {
         Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "qwen/qwen3.6-27b",
+        model: "openai/gpt-oss-20b",
         messages: [
           {
             role: "system",
@@ -76,8 +76,6 @@ const callGroq = async (prompt) => {
         ],
         temperature: 0.3,
         max_tokens: 1200,
-        reasoning_format: "hidden",
-        reasoning_effort: "none",
       }),
     }
   );
