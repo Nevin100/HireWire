@@ -53,7 +53,7 @@ app.get("/", async (req, res) => {
 });
 
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
-const GROQ_MODEL = "llama-3.1-8b-instant";
+const GROQ_MODEL = "qwen/qwen3.6-27b";
 
 const callGroq = async (prompt) => {
   const response = await fetch(
@@ -65,7 +65,7 @@ const callGroq = async (prompt) => {
         Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "llama-3.1-8b-instant",
+        model: "qwen/qwen3.6-27b",
         messages: [
           {
             role: "system",
