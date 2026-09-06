@@ -27,13 +27,13 @@ app.use(
       const allowedOrigins = [
         "http://localhost:5173",
         "https://hire-wire-three.vercel.app",
-        "https://hirewire.nevinbali.me"
+        "https://hirewire.nevinbali.me",
       ];
 
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
-        console.log(" Blocked by CORS:", origin);
+        console.error("Blocked by cors", origin);
         callback(new Error("Not allowed by CORS"));
       }
     },
@@ -43,7 +43,7 @@ app.use(
 
 app.use(cookieParser());
 
-//Routes :
+// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/sessions", sessionRoutes);
 app.use("/api/questions", questionRoutes);
@@ -52,8 +52,39 @@ app.get("/", async (req, res) => {
   res.send("Hello From the backend");
 });
 
-const GROQ_API_KEY = process.env.GROQ_API_KEY;
-const GROQ_MODEL = "qwen/qwen3.6-27b";
+// Safe JSON parser — handles truncated Groq responses
+const safeParseJSON = (rawText) => {
+  const cleaned = rawText
+    .replace(/^```json\s*/i, "")
+    .replace(/^```\s*/i, "")
+    .replace(/```$/i, "")
+    .trim();
+
+  // First try: direct parse
+  try {
+    return JSON.parse(cleaned);
+  } catch (_) {}
+
+  // Second try: extract outermost array
+  const arrStart = cleaned.indexOf("[");
+  const arrEnd = cleaned.lastIndexOf("]");
+  if (arrStart !== -1 && arrEnd !== -1 && arrEnd > arrStart) {
+    try {
+      return JSON.parse(cleaned.slice(arrStart, arrEnd + 1));
+    } catch (_) {}
+  }
+
+  // Third try: extract outermost object
+  const objStart = cleaned.indexOf("{");
+  const objEnd = cleaned.lastIndexOf("}");
+  if (objStart !== -1 && objEnd !== -1 && objEnd > objStart) {
+    try {
+      return JSON.parse(cleaned.slice(objStart, objEnd + 1));
+    } catch (_) {}
+  }
+
+  throw new SyntaxError("Could not parse Groq response as JSON");
+};
 
 const callGroq = async (prompt) => {
   const response = await fetch(
@@ -70,28 +101,34 @@ const callGroq = async (prompt) => {
           {
             role: "system",
             content:
-              "Return ONLY valid JSON. Do not include explanations, markdown, or extra text.",
+              "Return ONLY valid, complete JSON. Do not truncate. Do not include explanations, markdown, or extra text.",
           },
           { role: "user", content: prompt },
         ],
         temperature: 0.3,
-        max_tokens: 1200,
+        max_tokens: 4096, // increased from 1200 to prevent truncation
       }),
     }
   );
 
   if (!response.ok) {
     const err = await response.text();
-    console.error("Groq error:", err);
+    console.error("Groq API error response:", err);
     throw new Error("Groq API failed");
   }
 
   const data = await response.json();
+
+  // Log finish_reason so we know if it still truncates
+  const finishReason = data.choices?.[0]?.finish_reason;
+  if (finishReason && finishReason !== "stop") {
+    console.warn(`Groq finish_reason: ${finishReason} — response may be incomplete`);
+  }
+
   return data.choices[0].message.content;
 };
 
-
-//ai-generated routes:
+// AI: Generate interview questions
 app.use("/api/ai/generate-questions", verifyToken, async (req, res) => {
   try {
     const { role, experience, topicsToFocus, numberOfQuestions } = req.body;
@@ -108,24 +145,16 @@ app.use("/api/ai/generate-questions", verifyToken, async (req, res) => {
     );
 
     const rawText = await callGroq(prompt);
-
-    const cleanText = rawText
-      .replace(/^```json\s*/i, "")
-      .replace(/```$/i, "")
-      .trim();
-
-    const data = JSON.parse(cleanText);
+    const data = safeParseJSON(rawText);
 
     res.status(200).json({ data });
   } catch (error) {
-    console.error("Groq error:", error);
-    res
-      .status(500)
-      .json({ error: "Failed to generate interview questions" });
+    console.error("Error from generate-questions:", error.message);
+    res.status(500).json({ error: "Failed to generate interview questions" });
   }
 });
 
-//ai- explanations
+// AI: Generate concept explanation
 app.use("/api/ai/generate-explanations", verifyToken, async (req, res) => {
   try {
     const { question } = req.body;
@@ -137,21 +166,14 @@ app.use("/api/ai/generate-explanations", verifyToken, async (req, res) => {
     const prompt = conceptExplainPrompt(question);
 
     const rawText = await callGroq(prompt);
-
-    const cleanText = rawText
-      .replace(/^```json\s*/i, "")
-      .replace(/```$/i, "")
-      .trim();
-
-    const data = JSON.parse(cleanText);
+    const data = safeParseJSON(rawText);
 
     res.status(200).json({ data });
   } catch (error) {
-    console.error("Groq error:", error);
+    console.error("Error from generate-explanations:", error.message);
     res.status(500).json({ error: "Failed to generate explanation" });
   }
 });
-
 
 // Serve uploads folder
 app.use("/uploads", express.static(path.join(__dirname, "src", "Uploads")));
